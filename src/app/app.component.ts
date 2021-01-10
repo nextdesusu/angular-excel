@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import Faker from "../Faker";
+import fakeRequest from "../fakeRequest";
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,8 @@ export class AppComponent {
   title = 'angular-excel';
   constructor() {
     //Test
-    console.log(new Faker({
-      rows: 10,
-      fields: ["male name", "female name", "pet", "position", "sex", "number"]
-    }).randomArr())
+    fakeRequest().then((data) => {
+      console.log(JSON.parse(data));
+    })
   }
 }
