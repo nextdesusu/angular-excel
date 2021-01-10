@@ -1,5 +1,44 @@
 import Faker from "./Faker";
 
+const fields = [
+  {
+    name: "name",
+    type: "text",
+  },
+  {
+    name: "pet",
+    type: "select",
+    values: [
+      "cat",
+      "dog",
+      "rat",
+      "turtle",
+      "parrot",
+    ]
+  },
+  {
+    name: "position",
+    type: "select",
+    values: [
+      "president",
+      "director",
+      "manager",
+      "office clerk",
+      "assistant",
+    ]
+  },
+  {
+    name: "sex",
+    type: "bool",
+    values: ["m", "f"]
+  },
+  {
+    name: "age",
+    type: "number",
+    values: [18, 50]
+  }
+]
+
 const fakeRequest = (): Promise<string> => {
   return new Promise((res) => {
     const rows = 100, columns = 5;
@@ -17,13 +56,7 @@ const fakeRequest = (): Promise<string> => {
       res(`{
         "columns": ${columns},
         "rows": ${rows},
-        "fields": [
-          "name",
-          "pet",
-          "position",
-          "sex",
-          "age"
-        ],
+        "fields": ${JSON.stringify(fields)},
         "data": ${JSON.stringify(items)}
       }
       `);
