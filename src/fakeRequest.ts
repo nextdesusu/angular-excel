@@ -1,6 +1,7 @@
 import Faker from "./Faker";
+import { fieldDescription, VTableProps } from "./types";
 
-const fields = [
+const fields: Array<fieldDescription> = [
   {
     name: "name",
     type: "text",
@@ -52,14 +53,15 @@ const fakeRequest = (): Promise<string> => {
       items[i + 3] = s;
       items[i + 4] = Faker.randomNumber(18, 50);
     }
+    const resultObj: VTableProps = {
+      columns: columns,
+      rows: rows,
+      fields: fields,
+      data: items
+    };
     setTimeout(() => {
-      res(`{
-        "columns": ${columns},
-        "rows": ${rows},
-        "fields": ${JSON.stringify(fields)},
-        "data": ${JSON.stringify(items)}
-      }
-      `);
+      //By doing this i faking a response from the server
+      res(JSON.stringify(resultObj));
     }, 100);
   })
 }

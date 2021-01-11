@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import fakeRequest from "../fakeRequest";
+import { VTableProps, VTableSettings } from "../types";
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,15 @@ import fakeRequest from "../fakeRequest";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-excel';
+  toVTableProps: VTableProps;
+  toVTableSettings: VTableSettings = {
+    cellWidth: 100,
+    cellHeight: 50,
+    showRows: 8
+  };
   constructor() {
-    //Test
     fakeRequest().then((data) => {
-      console.log(JSON.parse(data));
-    })
+      this.toVTableProps = JSON.parse(data);
+    });
   }
 }
