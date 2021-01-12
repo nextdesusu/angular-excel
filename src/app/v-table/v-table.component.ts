@@ -1,4 +1,6 @@
+import { Target } from '@angular/compiler';
 import { Component, Input, HostListener, HostBinding, OnChanges, SimpleChanges } from '@angular/core';
+import { Scroll } from '@angular/router';
 import { VTableProps, VTableSettings } from "../../types";
 
 const DEFAULT_SHOW_ROWS = 7;
@@ -43,13 +45,14 @@ export class VTableComponent implements OnChanges {
     const {
       props
     } = changes;
-    if (props === undefined || props.currentValue === undefined) return;
+    if (props === undefined || props.currentValue === undefined || this.isPropsLoaded) return;
     this.propsLoaded = true;
     const {
       cellWidth,
       cellHeight,
       showRows
     } = this.settings;
+    console.log("props", props.currentValue);
     this.generateRanges(0, 0);
     if (this.hostHeight) return;
     this.hostHeight = `${cellHeight * showRows}px`;
@@ -61,8 +64,8 @@ export class VTableComponent implements OnChanges {
   }
 
   public getDataItem(x: number, y: number): string {
-    const { data, rows } = this.propsOrThrow;
-    return data[y * rows + x];
+    const { data, columns } = this.propsOrThrow;
+    return data[y * columns + x];
   }
 
   public get totalHeight(): number {
@@ -82,7 +85,7 @@ export class VTableComponent implements OnChanges {
   }
 
   @HostListener('scroll', ['$event']) private onScroll($event: Event): void {
-    const scrollBar = $event.target as any;
+    const scrollBar = $event.target as HTMLTableElement;
     this.generateRanges(scrollBar.scrollLeft, scrollBar.scrollTop);
   };
 
