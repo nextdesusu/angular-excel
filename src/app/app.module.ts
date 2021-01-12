@@ -7,6 +7,7 @@ import { ButtonComponent } from './button/button.component';
 import { SelectComponent } from './select/select.component';
 import { InputComponent } from './input/input.component';
 import { BoolComponent } from './bool/bool.component';
+import { VHeaderComponent } from './v-header/v-header.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { BoolComponent } from './bool/bool.component';
     ButtonComponent,
     SelectComponent,
     InputComponent,
-    BoolComponent
+    BoolComponent,
+    VHeaderComponent
   ],
   imports: [
     BrowserModule

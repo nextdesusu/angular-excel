@@ -16,3 +16,15 @@ export interface VTableProps {
   fields: Array<fieldDescription>;
   data: Array<string>;
 }
+
+export interface VHeaderProps {
+  id: number;
+  type: string;
+  values: Array<string | number>
+}
+
+export interface VHeaderEvent {
+  id: number;
+  query: string | number;
+  isActive: boolean;
+}
