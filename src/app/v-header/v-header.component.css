@@ -1,0 +1,23 @@
+:host {
+  border: 1px solid red;
+  top: 0px;
+  left: 0px;
+  display: block;
+  position: relative;
+}
+
+:host > div > * {
+  padding: 0px;
+  margin: 0px;
+}
+
+:host > div {
+  top: 0px;
+  left: 0px;
+  width: 0px;
+  height: 0px;
+  display: table-cell;
+  position: relative;
+  border: 1px solid black;
+}
+

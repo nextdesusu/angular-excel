@@ -1,7 +1,5 @@
-import { Target } from '@angular/compiler';
 import { Component, Input, HostListener, HostBinding, OnChanges, SimpleChanges } from '@angular/core';
-import { Scroll } from '@angular/router';
-import { VTableProps, VTableSettings } from "../../types";
+import { VTableProps, VTableSettings, VHeaderProps, fieldDescription } from "../../types";
 
 const DEFAULT_SHOW_ROWS = 7;
 const DEFAULT_CELL_WIDTH = 40;
@@ -52,11 +50,20 @@ export class VTableComponent implements OnChanges {
       cellHeight,
       showRows
     } = this.settings;
-    console.log("props", props.currentValue);
     this.generateRanges(0, 0);
     if (this.hostHeight) return;
     this.hostHeight = `${cellHeight * showRows}px`;
     this.hostWidth = `${cellWidth * this.propsOrThrow.columns}px`;
+  }
+
+  public get hProps(): VHeaderProps {
+    const { cellHeight, cellWidth } = this.settings;
+    const { fields } = this.propsOrThrow;
+    return {
+      cellWidth,
+      cellHeight,
+      items: fields.map((field: fieldDescription, id: number) => ({...field, id}))
+    }
   }
 
   public get isPropsLoaded(): boolean {

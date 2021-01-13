@@ -17,10 +17,14 @@ export interface VTableProps {
   data: Array<string>;
 }
 
-export interface VHeaderProps {
+export interface VheaderFieldDescription extends fieldDescription {
   id: number;
-  type: string;
-  values: Array<string | number>
+}
+
+export interface VHeaderProps {
+  cellHeight: number;
+  cellWidth: number;
+  items: Array<VheaderFieldDescription>;
 }
 
 export interface VHeaderEvent {

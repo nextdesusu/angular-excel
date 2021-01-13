@@ -1,26 +1,29 @@
-<table
-  *ngIf="isPropsLoaded"
-  class="v-table"
-  [ngStyle]="{
-    'width.px': totalWidth,
-    'height.px': totalHeight
-  }"
->
-  <tr *ngFor="let y of rangeY" class="v-table-row">
-    <td
-      *ngFor="let x of rangeX"
-      class="v-table-cell"
-      [ngStyle]="{
-        'top.px': y * settings.cellHeight,
-        'left.px': x * settings.cellWidth,
-        'width.px': settings.cellWidth,
-        'height.px': settings.cellHeight
-      }"
-    >
-      {{ getDataItem(x, y) }}
-    </td>
-  </tr>
-</table>
-<div *ngIf="!isPropsLoaded">
+<ng-template [ngIf]="isPropsLoaded" [ngIfElse]="loading">
+  <app-v-header [props]="hProps"></app-v-header>
+  <table
+    *ngIf="isPropsLoaded"
+    class="v-table"
+    [ngStyle]="{
+      'width.px': totalWidth,
+      'height.px': totalHeight
+    }"
+  >
+    <tr *ngFor="let y of rangeY" class="v-table-row">
+      <td
+        *ngFor="let x of rangeX"
+        class="v-table-cell"
+        [ngStyle]="{
+          'top.px': y * settings.cellHeight,
+          'left.px': x * settings.cellWidth,
+          'width.px': settings.cellWidth,
+          'height.px': settings.cellHeight
+        }"
+      >
+        {{ getDataItem(x, y) }}
+      </td>
+    </tr>
+  </table>
+</ng-template>
+<ng-template #loading>
   <p>Loading...</p>
-</div>
+</ng-template>
