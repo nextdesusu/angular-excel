@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, HostBinding, OnChanges, SimpleChanges } from '@angular/core';
-import { VHeaderProps, VHeaderEvent } from "../../types";
+import { VHeaderProps, inputEvent } from "../../types";
 
 @Component({
   selector: 'app-v-header',
@@ -8,7 +8,7 @@ import { VHeaderProps, VHeaderEvent } from "../../types";
 })
 export class VHeaderComponent implements OnChanges {
   @Input() props: VHeaderProps;
-  @Output() onChanged = new EventEmitter<VHeaderEvent>();
+ // @Output() onChanged = new EventEmitter<VHeaderEvent>();
   @HostBinding('style.height') hostHeight;
   @HostBinding('style.width') hostWidth;
   private propsLoaded: boolean = false;
@@ -29,7 +29,9 @@ export class VHeaderComponent implements OnChanges {
     this.hostWidth = `${cellWidth * items.length}px`;
   }
 
-  onChange(event: Event) {
+  onChange(event: inputEvent) {
+    console.log("v-header ch:", event);
+    /*
     const target = event.target as HTMLInputElement;
     const idR = target.getAttribute("1!!");
     const isActiveR = target.getAttribute("2!!");
@@ -38,7 +40,7 @@ export class VHeaderComponent implements OnChanges {
       id: Number(idR),
       query: target.value,
       isActive: Boolean(isActiveR)
-    });
+    });*/
   }
 
   public get isPropsLoaded(): boolean {

@@ -1,0 +1,9 @@
+:host {
+  display: inline-block;
+  width: 100%;
+}
+
+:host > input {
+  display: inline-block;
+  width: 90%;
+}

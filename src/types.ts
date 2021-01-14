@@ -27,7 +27,7 @@ export interface VHeaderProps {
   items: Array<VheaderFieldDescription>;
 }
 
-export interface VHeaderEvent {
+export interface inputEvent {
   id: number;
   query: string | number;
   isActive: boolean;

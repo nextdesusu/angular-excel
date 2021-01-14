@@ -1,5 +1,4 @@
 :host {
-  border: 1px solid red;
   top: 0px;
   left: 0px;
   display: block;
@@ -17,7 +16,6 @@
   width: 0px;
   height: 0px;
   display: table-cell;
-  position: relative;
-  border: 1px solid black;
+  position: absolute;
 }
 

@@ -1,7 +1,11 @@
 <ng-template [ngIf]="isPropsLoaded" [ngIfElse]="loading">
-  <div *ngFor="let field of props.items">
-    <h3>{{field.name}}</h3>
-    <input (change)="onChange($event)" />
+  <div *ngFor="let field of props.items" [ngStyle]="{
+    'left.px': field.id * props.cellWidth,
+    'width.px': props.cellWidth,
+    'height.px': props.cellHeight
+  }">
+    <h3>{{ field.name }}</h3>
+    <app-input [id]="field.id" (onChanged)="onChange($event)"></app-input>
   </div>
 </ng-template>
 <ng-template #loading>
