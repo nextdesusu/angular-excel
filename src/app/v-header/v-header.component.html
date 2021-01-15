@@ -1,11 +1,35 @@
 <ng-template [ngIf]="isPropsLoaded" [ngIfElse]="loading">
-  <div *ngFor="let field of props.items" [ngStyle]="{
-    'left.px': field.id * props.cellWidth,
-    'width.px': props.cellWidth,
-    'height.px': props.cellHeight
-  }">
+  <div
+    *ngFor="let field of props.items; trackBy: vHeaderTracker"
+    [ngStyle]="{
+      'left.px': field.id * props.cellWidth,
+      'width.px': props.cellWidth,
+      'height.px': props.cellHeight
+    }"
+    [ngSwitch]="field.type"
+  >
     <h3>{{ field.name }}</h3>
-    <app-input [id]="field.id" (onChanged)="onChange($event)"></app-input>
+    <app-input
+      *ngSwitchCase="'text'"
+      [id]="field.id"
+      (onChanged)="onChange($event)"
+    ></app-input>
+    <app-number
+      *ngSwitchCase="'number'"
+      [props]="{ id: field.id, min: field.values[0], max: field.values[1] }"
+      (onChanged)="onChange($event)"
+    ></app-number>
+    <app-select
+      *ngSwitchCase="'select'"
+      [props]="{ id: field.id, options: field.values }"
+      (onChanged)="onChange($event)"
+    ></app-select>
+    <app-bool
+      *ngSwitchCase="'bool'"
+      [props]="{ id: field.id, on: field.values[1], off: field.values[0] }"
+      (onChanged)="onChange($event)"
+    ></app-bool>
+    <p *ngSwitchDefault>error!</p>
   </div>
 </ng-template>
 <ng-template #loading>

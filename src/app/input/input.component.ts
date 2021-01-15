@@ -13,11 +13,10 @@ export class InputComponent {
   public query: string;
   constructor() { }
 
-  onChange(e: Event): void {
-    const target = e.target as HTMLInputElement;
-    //this.query = target.value;
+  onChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.query = target.value;
     const { id, isActive, query } = this;
-    console.log("changin:", target);
     this.onChanged.emit({
       id,
       query,

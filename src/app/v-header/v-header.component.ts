@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, HostBinding, OnChanges, SimpleChanges } from '@angular/core';
-import { VHeaderProps, inputEvent } from "../../types";
+import { Component, Input, HostBinding, OnChanges, SimpleChanges } from '@angular/core';
+import { VHeaderProps, inputEvent, VheaderFieldDescription } from "../../types";
 
 @Component({
   selector: 'app-v-header',
@@ -8,7 +8,6 @@ import { VHeaderProps, inputEvent } from "../../types";
 })
 export class VHeaderComponent implements OnChanges {
   @Input() props: VHeaderProps;
- // @Output() onChanged = new EventEmitter<VHeaderEvent>();
   @HostBinding('style.height') hostHeight;
   @HostBinding('style.width') hostWidth;
   private propsLoaded: boolean = false;
@@ -18,7 +17,6 @@ export class VHeaderComponent implements OnChanges {
       props
     } = changes;
     if (props === undefined || props.currentValue === undefined || this.isPropsLoaded) return;
-    console.log("p", props);
     this.propsLoaded = true;
     const {
       cellWidth,
@@ -29,21 +27,24 @@ export class VHeaderComponent implements OnChanges {
     this.hostWidth = `${cellWidth * items.length}px`;
   }
 
-  onChange(event: inputEvent) {
+  public onChange(event: inputEvent): void {
     console.log("v-header ch:", event);
-    /*
-    const target = event.target as HTMLInputElement;
-    const idR = target.getAttribute("1!!");
-    const isActiveR = target.getAttribute("2!!");
-    if (idR === null || isActiveR === null) throw `Unexpected custom attribute is null!`;
-    this.onChanged.emit({
-      id: Number(idR),
-      query: target.value,
-      isActive: Boolean(isActiveR)
-    });*/
+    const {
+      id,
+      query,
+      isActive
+    } = event;
+    if (isActive) {
+
+    }
   }
 
   public get isPropsLoaded(): boolean {
     return this.propsLoaded;
+  }
+
+  public vHeaderTracker(index: number, item: VheaderFieldDescription): number {
+    console.log("it", item.type);
+    return index;
   }
 }

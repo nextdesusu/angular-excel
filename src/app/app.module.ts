@@ -8,6 +8,7 @@ import { SelectComponent } from './select/select.component';
 import { InputComponent } from './input/input.component';
 import { BoolComponent } from './bool/bool.component';
 import { VHeaderComponent } from './v-header/v-header.component';
+import { NumberComponent } from './number/number.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { VHeaderComponent } from './v-header/v-header.component';
     SelectComponent,
     InputComponent,
     BoolComponent,
-    VHeaderComponent
+    VHeaderComponent,
+    NumberComponent
   ],
   imports: [
     BrowserModule

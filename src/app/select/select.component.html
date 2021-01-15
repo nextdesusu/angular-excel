@@ -1,1 +1,3 @@
-<p>select works!</p>
+<select (change)="onChange($event)">
+  <option *ngFor="let opt of props.options">{{ opt }}</option>
+</select>
