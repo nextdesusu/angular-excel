@@ -7,28 +7,36 @@
       'height.px': props.cellHeight
     }"
     [ngSwitch]="field.type"
+    class="v-header-item"
   >
     <h3>{{ field.name }}</h3>
     <app-input
       *ngSwitchCase="'text'"
       [id]="field.id"
+      [props]="{ id: field.id, type: 'text' }"
       (onChanged)="onChange($event)"
     ></app-input>
-    <app-number
+    <app-input
       *ngSwitchCase="'number'"
-      [props]="{ id: field.id, min: field.values[0], max: field.values[1] }"
+      [id]="field.id"
+      [props]="{
+        id: field.id,
+        type: 'number',
+        min: field.values[0],
+        max: field.values[1]
+      }"
       (onChanged)="onChange($event)"
-    ></app-number>
+    ></app-input>
     <app-select
       *ngSwitchCase="'select'"
       [props]="{ id: field.id, options: field.values }"
       (onChanged)="onChange($event)"
     ></app-select>
-    <app-bool
+    <app-select
       *ngSwitchCase="'bool'"
-      [props]="{ id: field.id, on: field.values[1], off: field.values[0] }"
+      [props]="{ id: field.id, options: field.values }"
       (onChanged)="onChange($event)"
-    ></app-bool>
+    ></app-select>
     <p *ngSwitchDefault>error!</p>
   </div>
 </ng-template>

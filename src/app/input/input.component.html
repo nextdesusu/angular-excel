@@ -1,6 +1,16 @@
-<input
-  name="query"
-
-  type="text"
-  (change)="onChange($event)"
-/>
+<ng-template [ngIf]="props.type == 'text'" [ngIfElse]="number">
+  <input [value]="defaultValue" (change)="onChange($event)" type="text" />
+</ng-template>
+<ng-template #number>
+  <div class="number-wrapper">
+    <input
+      [min]="props.min"
+      [max]="props.max"
+      [value]="defaultValue"
+      (change)="onChange($event)"
+      type="number"
+      class="number"
+    />
+    <input type="checkbox" (click)="triggerIsActive()"/>
+  </div>
+</ng-template>

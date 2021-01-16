@@ -9,6 +9,7 @@ import { inputEvent } from "../../types";
 export class SelectComponent {
   @Input() props: {
     id: number;
+    type: "select" | "bool";
     options: Array<string>;
   }
   @Output() onChanged = new EventEmitter<inputEvent>();
@@ -18,6 +19,8 @@ export class SelectComponent {
   onChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     this.query = target.value;
+    if (this.query === "inactive") this.isActive = false;
+    else this.isActive = true;
     const { query, isActive, props: { id } } = this;
     this.onChanged.emit({
       id,

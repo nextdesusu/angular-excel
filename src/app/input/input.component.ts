@@ -8,20 +8,44 @@ import { inputEvent } from "../../types";
 })
 export class InputComponent {
   @Input() id: number;
+  @Input() props: {
+    id: number;
+    type: "text" | "number";
+    min?: number;
+    max?: number;
+  }
   @Output() onChanged = new EventEmitter<inputEvent>();
-  private isActive: boolean = true;
-  public query: string;
+  private isActive: boolean = false;
+  public query: string = "";
   constructor() { }
 
-  onChange(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.query = target.value;
+  get defaultValue(): string | number {
+    const { type, min } = this.props;
+    return type === "text" ? "" : min;
+  }
+
+  private notify(): void {
     const { id, isActive, query } = this;
     this.onChanged.emit({
       id,
       query,
       isActive
     });
+  }
+
+  triggerIsActive(): void {
+    this.isActive = !this.isActive;
+    this.notify();
+  }
+
+  onChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.query = target.value;
+    if (this.props.type === "text") {
+      if (this.query === "") this.isActive = false;
+      else this.isActive = true;
+    }
+    this.notify();
   }
 
 }

@@ -6,9 +6,7 @@ import { VTableComponent } from './v-table/v-table.component';
 import { ButtonComponent } from './button/button.component';
 import { SelectComponent } from './select/select.component';
 import { InputComponent } from './input/input.component';
-import { BoolComponent } from './bool/bool.component';
 import { VHeaderComponent } from './v-header/v-header.component';
-import { NumberComponent } from './number/number.component';
 
 @NgModule({
   declarations: [
@@ -17,9 +15,7 @@ import { NumberComponent } from './number/number.component';
     ButtonComponent,
     SelectComponent,
     InputComponent,
-    BoolComponent,
     VHeaderComponent,
-    NumberComponent
   ],
   imports: [
     BrowserModule

@@ -1,5 +1,5 @@
 import { Component, Input, HostListener, HostBinding, OnChanges, SimpleChanges } from '@angular/core';
-import { VTableProps, VTableSettings, VHeaderProps, fieldDescription } from "../../types";
+import { VTableProps, VTableSettings, VHeaderProps, fieldDescription, VHeaderEvent, idQuery } from "../../types";
 
 const DEFAULT_SHOW_ROWS = 7;
 const DEFAULT_CELL_WIDTH = 40;
@@ -39,6 +39,19 @@ export class VTableComponent implements OnChanges {
   @HostBinding('style.height') hostHeight;
   constructor() { }
 
+  private *nthRow(n: number) {
+    const { data, columns } = this.propsOrThrow;
+    const start = n === 0 ? 0 : n * columns;
+    const end = n === 0 ? columns : n * (columns * 2);
+    for (let i = start; i < end; i += 1) {
+      yield data[i];
+    }
+  }
+
+  public onQuery(event: VHeaderEvent): void {
+    console.log("ev:::", event);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     const {
       props
@@ -62,7 +75,7 @@ export class VTableComponent implements OnChanges {
     return {
       cellWidth,
       cellHeight,
-      items: fields.map((field: fieldDescription, id: number) => ({...field, id}))
+      items: fields.map((field: fieldDescription, id: number) => ({ ...field, id }))
     }
   }
 

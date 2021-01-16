@@ -19,3 +19,8 @@
   position: absolute;
 }
 
+.v-header-item {
+  font-size: .7em;
+  text-transform: capitalize;
+  text-align: center;
+}

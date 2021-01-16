@@ -1,5 +1,13 @@
-import { Component, Input, HostBinding, OnChanges, SimpleChanges } from '@angular/core';
-import { VHeaderProps, inputEvent, VheaderFieldDescription } from "../../types";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  HostBinding,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
+import { VHeaderProps, VheaderFieldDescription, VHeaderEvent, idQuery, inputEvent } from "../../types";
 
 @Component({
   selector: 'app-v-header',
@@ -8,8 +16,10 @@ import { VHeaderProps, inputEvent, VheaderFieldDescription } from "../../types";
 })
 export class VHeaderComponent implements OnChanges {
   @Input() props: VHeaderProps;
+  @Output() onQuery: EventEmitter<VHeaderEvent> = new EventEmitter<VHeaderEvent>();
   @HostBinding('style.height') hostHeight;
   @HostBinding('style.width') hostWidth;
+  private queries: Array<idQuery> = [];
   private propsLoaded: boolean = false;
   constructor() { }
   ngOnChanges(changes: SimpleChanges): void {
@@ -35,8 +45,11 @@ export class VHeaderComponent implements OnChanges {
       isActive
     } = event;
     if (isActive) {
-
+      this.queries.push({ id, query });
+    } else {
+      this.queries = this.queries.filter((query: idQuery) => query.id !== id);
     }
+    this.onQuery.emit({ sortByColumns: this.queries });
   }
 
   public get isPropsLoaded(): boolean {
@@ -44,7 +57,6 @@ export class VHeaderComponent implements OnChanges {
   }
 
   public vHeaderTracker(index: number, item: VheaderFieldDescription): number {
-    console.log("it", item.type);
     return index;
   }
 }

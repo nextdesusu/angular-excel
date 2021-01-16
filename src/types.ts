@@ -27,8 +27,15 @@ export interface VHeaderProps {
   items: Array<VheaderFieldDescription>;
 }
 
-export interface inputEvent {
+export interface idQuery {
   id: number;
   query: string | number;
+}
+
+export interface VHeaderEvent {
+  sortByColumns: Array<idQuery>;
+}
+
+export interface inputEvent extends idQuery {
   isActive: boolean;
 }

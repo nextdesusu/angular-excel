@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+:host > select {
+  display: inline-block;
+  width: 90%;
+  cursor: pointer;
+  text-transform: capitalize;
+}

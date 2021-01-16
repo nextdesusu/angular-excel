@@ -1,9 +1,21 @@
 :host {
-  display: inline-block;
+  display: flex;
   width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 :host > input {
   display: inline-block;
   width: 90%;
+  cursor: pointer;
+}
+
+.number-wrapper {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
+.number-wrapper > input[type="checkbox"] {
+  cursor: pointer;
 }
