@@ -38,16 +38,14 @@ export class VHeaderComponent implements OnChanges {
   }
 
   public onChange(event: inputEvent): void {
-    console.log("v-header ch:", event);
     const {
       id,
       query,
       isActive
     } = event;
+    this.queries = this.queries.filter((query: idQuery) => query.id !== id);
     if (isActive) {
       this.queries.push({ id, query });
-    } else {
-      this.queries = this.queries.filter((query: idQuery) => query.id !== id);
     }
     this.onQuery.emit({ sortByColumns: this.queries });
   }

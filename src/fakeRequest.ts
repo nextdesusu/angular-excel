@@ -42,7 +42,7 @@ const fields: Array<fieldDescription> = [
 
 const fakeRequest = (): Promise<string> => {
   return new Promise((res) => {
-    const rows = 100, columns = 5;
+    const rows = 1000, columns = 5;
     const total = rows * columns;
     const items = new Array(total);
     for (let i = 0; i < total; i += columns) {

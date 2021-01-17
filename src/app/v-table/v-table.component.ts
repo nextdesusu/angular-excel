@@ -5,6 +5,7 @@ const DEFAULT_SHOW_ROWS = 7;
 const DEFAULT_CELL_WIDTH = 40;
 const DEFAULT_CELL_HEIGHT = 40;
 
+
 //For some reason angular doesn want to work with generator function in its templates
 //so i have to use class method to generate ranges!
 class Range {
@@ -32,6 +33,8 @@ export class VTableComponent implements OnChanges {
     cellHeight: DEFAULT_CELL_HEIGHT,
     showRows: DEFAULT_SHOW_ROWS
   };
+  private handledData: Array<string> = [];
+  private currentRows: number = 0;
   private rX: Range;
   private rY: Range;
 
@@ -39,17 +42,16 @@ export class VTableComponent implements OnChanges {
   @HostBinding('style.height') hostHeight;
   constructor() { }
 
-  private *nthRow(n: number) {
-    const { data, columns } = this.propsOrThrow;
-    const start = n === 0 ? 0 : n * columns;
-    const end = n === 0 ? columns : n * (columns * 2);
-    for (let i = start; i < end; i += 1) {
-      yield data[i];
-    }
-  }
-
   public onQuery(event: VHeaderEvent): void {
-    console.log("ev:::", event);
+    const { sortByColumns } = event;
+    if (sortByColumns.length !== 0) {
+      this.handledData = Array.from(this.filteredItems(sortByColumns));
+    } else {
+      this.handledData = this.propsOrThrow.data;
+    }
+    this.currentRows = this.handledData.length / this.columns;
+    //dev check
+    if (this.currentRows !== Math.floor(this.currentRows)) throw `Not integer: ${this.currentRows}`;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,6 +65,12 @@ export class VTableComponent implements OnChanges {
       cellHeight,
       showRows
     } = this.settings;
+    const {
+      data,
+      rows
+    } = props.currentValue;
+    this.handledData = data;
+    this.currentRows = rows;
     this.generateRanges(0, 0);
     if (this.hostHeight) return;
     this.hostHeight = `${cellHeight * showRows}px`;
@@ -84,12 +92,12 @@ export class VTableComponent implements OnChanges {
   }
 
   public getDataItem(x: number, y: number): string {
-    const { data, columns } = this.propsOrThrow;
-    return data[y * columns + x];
+    const { columns } = this.propsOrThrow;
+    return this.handledData[y * columns + x];
   }
 
   public get totalHeight(): number {
-    return this.rows * this.cellHeight;
+    return this.currentRows * this.cellHeight;
   }
 
   public get totalWidth(): number {
@@ -109,6 +117,45 @@ export class VTableComponent implements OnChanges {
     this.generateRanges(scrollBar.scrollLeft, scrollBar.scrollTop);
   };
 
+  private *filteredItems(predicates: Array<idQuery>) {
+    const ids = new Map();
+    for (const pred of predicates) {
+      ids.set(pred.id, pred.query);
+    }
+    const tmp = new Array(this.columns);
+    loopStart:
+    for (const row of this.itemsByRows()) {
+      let index = 0;
+      for (const item of row) {
+        tmp[index] = item;
+        if (ids.has(index)) {
+          const query = ids.get(index);
+          if (!item.includes(query)) {
+            continue loopStart;
+          }
+        }
+        index += 1;
+      }
+      yield* tmp;
+    }
+  }
+
+  private *itemsByRows() {
+    const max = this.rows;
+    for (let i = 0; i < max - 1; i += 1) {
+      yield this.nthRow(i);
+    }
+  }
+
+  private *nthRow(n: number) {
+    const { columns, data } = this.propsOrThrow;
+    const start = n * columns;
+    const end = start + columns;
+    for (let i = start; i < end; i += 1) {
+      yield data[i];
+    }
+  }
+
   private generateRanges(left: number, top: number): void {
     const { cellWidth, cellHeight, showRows } = this.settings
     const { columns } = this.propsOrThrow;
@@ -119,7 +166,7 @@ export class VTableComponent implements OnChanges {
     const toRenderX = x + columns + 4;
     const toRenderY = y + showRows + 4;
     const maxX = toRenderX < this.columns ? toRenderX : this.columns;
-    const maxY = toRenderY < this.rows ? toRenderY : this.rows;
+    const maxY = toRenderY < this.currentRows ? toRenderY : this.currentRows;
     this.rX = new Range(x, maxX);
     this.rY = new Range(y, maxY);
   }
