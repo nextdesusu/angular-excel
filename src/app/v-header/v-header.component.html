@@ -1,44 +1,59 @@
 <ng-template [ngIf]="isPropsLoaded" [ngIfElse]="loading">
-  <div
-    *ngFor="let field of props.items; trackBy: vHeaderTracker"
-    [ngStyle]="{
-      'left.px': field.id * props.cellWidth,
-      'width.px': props.cellWidth,
-      'height.px': props.cellHeight
-    }"
-    [ngSwitch]="field.type"
-    class="v-header-item"
-  >
-    <h3>{{ field.name }}</h3>
-    <app-input
-      *ngSwitchCase="'text'"
-      [id]="field.id"
-      [props]="{ id: field.id, type: 'text' }"
-      (onChanged)="onChange($event)"
-    ></app-input>
-    <app-input
-      *ngSwitchCase="'number'"
-      [id]="field.id"
-      [props]="{
-        id: field.id,
-        type: 'number',
-        min: field.values[0],
-        max: field.values[1]
+  <tr>
+    <th
+      *ngFor="let field of props.items; trackBy: vHeaderTracker"
+      [ngStyle]="{
+        'left.px': field.id * props.cellWidth,
+        'width.px': props.cellWidth,
+        'height.px': props.cellHeight
       }"
-      (onChanged)="onChange($event)"
-    ></app-input>
-    <app-select
-      *ngSwitchCase="'select'"
-      [props]="{ id: field.id, options: field.values }"
-      (onChanged)="onChange($event)"
-    ></app-select>
-    <app-select
-      *ngSwitchCase="'bool'"
-      [props]="{ id: field.id, options: field.values }"
-      (onChanged)="onChange($event)"
-    ></app-select>
-    <p *ngSwitchDefault>error!</p>
-  </div>
+      [ngSwitch]="field.type"
+      class="v-header-item"
+    >
+      <h3 class="v-header-caption">{{ field.name }}</h3>
+      <app-input
+        *ngSwitchCase="'text'"
+        [id]="field.id"
+        [props]="{ id: field.id, type: 'text' }"
+        (onChanged)="onChange($event)"
+      ></app-input>
+      <app-input
+        *ngSwitchCase="'number'"
+        [id]="field.id"
+        [props]="{
+          id: field.id,
+          type: 'number',
+          min: field.values[0],
+          max: field.values[1]
+        }"
+        (onChanged)="onChange($event)"
+      ></app-input>
+      <app-select
+        *ngSwitchCase="'select'"
+        [props]="{ id: field.id, options: field.values }"
+        (onChanged)="onChange($event)"
+      ></app-select>
+      <app-select
+        *ngSwitchCase="'bool'"
+        [props]="{ id: field.id, options: field.values }"
+        (onChanged)="onChange($event)"
+      ></app-select>
+      <p *ngSwitchDefault>error!</p>
+    </th>
+  </tr>
+  <tr class="v-header-utility-wrapper">
+    <th>
+      <h3 class="v-header-caption">sort by</h3>
+      <app-select [props]="sortProps"></app-select>
+    </th>
+    <th style="z-index: 10">
+      <h3 class="v-header-caption">exclude</h3>
+      <app-select
+        (onChanged)="onExcludeChange($event)"
+        [props]="excludeProps"
+      ></app-select>
+    </th>
+  </tr>
 </ng-template>
 <ng-template #loading>
   <p>Loading...</p>

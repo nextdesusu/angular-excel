@@ -19,8 +19,13 @@
   position: absolute;
 }
 
-.v-header-item {
-  font-size: .7em;
+.v-header-caption {
   text-transform: capitalize;
   text-align: center;
+  font-size: 0.7em;
+}
+
+.v-header-utility-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }

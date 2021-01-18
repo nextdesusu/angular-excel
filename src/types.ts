@@ -29,13 +29,29 @@ export interface VHeaderProps {
 
 export interface idQuery {
   id: number;
-  query: string | number;
+  query: string | number | Array<string | number>;
 }
 
 export interface VHeaderEvent {
   sortByColumns: Array<idQuery>;
+  sortBy: {
+    ascending: boolean;
+    id: number;
+  };
+  exclude: Array<number>;
 }
 
 export interface inputEvent extends idQuery {
   isActive: boolean;
 }
+
+export interface selectProps {
+  id: number;
+  type: "select" | "bool" | "multiple";
+  options: Array<string>;
+}
+
+export type sortByType = {
+  id: number;
+  ascending: boolean;
+} | null;
